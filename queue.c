@@ -149,6 +149,24 @@ bool q_delete_mid(struct list_head *head)
 /* Delete all nodes that have duplicate string */
 bool q_delete_dup(struct list_head *head)
 {
+    // https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/
+    if (!head || list_empty(head) || list_is_singular(head)) {
+        return false;
+    }
+
+    element_t *curr = NULL, *next = NULL;
+    bool check = false;
+    list_for_each_entry_safe (curr, next, head, list) {
+        if (&next->list != head && !strcmp(curr->value, next->value)) {
+            list_del_init(&curr->list);
+            q_release_element(curr);
+            check = true;
+        } else if (check) {
+            list_del_init(&curr->list);
+            q_release_element(curr);
+            check = false;
+        }
+    }
     return true;
 }
 
@@ -196,7 +214,30 @@ void q_sort(struct list_head *head) {}
 int q_descend(struct list_head *head)
 {
     // https://leetcode.com/problems/remove-nodes-from-linked-list/
-    return 0;
+    if (head == NULL || list_empty(head)) {
+        return 0;
+    }
+    struct list_head *node = head->prev;
+    int total = 1, delete = 0;
+    element_t *curr = NULL, *check = NULL;
+    char *num = NULL;
+    while (&check->list != head && node->prev != head) {
+        curr = list_entry(node, element_t, list);
+        check = list_entry(node->prev, element_t, list);
+        int str_len = strlen(curr->value);
+        num = malloc(sizeof(char) * (str_len + 1));
+        strncpy(num, curr->value, str_len);
+        *(num + str_len) = '\0';
+        if (strcmp(check->value, num) < 0) {
+            list_del(&check->list);
+            q_release_element(check);
+            delete += 1;
+        } else {
+            node = node->prev;
+        }
+        total += 1;
+    }
+    return total - delete;
 }
 
 /* Merge all the queues into one sorted queue, which is in ascending order */
