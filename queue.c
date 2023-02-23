@@ -139,7 +139,7 @@ bool q_delete_mid(struct list_head *head)
 
     // delete entry
     element_t *middle = list_entry(forward, element_t, list);
-    free(middle);
+    q_release_element(middle);
     return true;
 }
 
