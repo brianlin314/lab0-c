@@ -1,0 +1,12 @@
+# started on Tue Feb 28 13:06:16 2023
+
+
+ Performance counter stats for './qtest -v 0 -f ./traces/traces_perf_q_sort/RAND_100000.cmd' (5 runs):
+
+           61,7447      cpu_core/cache-misses/                                        ( +- 11.72% )
+         6376,2295      cpu_core/branches/                                            ( +-  0.09% )
+       4,3054,4077      cpu_core/instructions/                                        ( +-  0.07% )
+                 0      context-switches                                            
+
+          0.061952 +- 0.000470 seconds time elapsed  ( +-  0.76% )
+
